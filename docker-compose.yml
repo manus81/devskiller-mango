@@ -1,0 +1,22 @@
+version: '3'
+services:
+    mongo:
+        image: mongo:latest
+        container_name: mongo-db
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo-data:/data/db
+
+    app:
+        build: .
+        container_name: devskiller-mango
+        ports:
+            - "8081:8081"
+        depends_on:
+            - mongo
+        environment:
+            - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/mangodb
+
+volumes:
+    mongo-data:
